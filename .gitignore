@@ -1,0 +1,33 @@
+# MATLAB
+*.asv
+*.autosave
+slprj/
+codegen/
+
+# Large training artefacts — regenerate by running the training script
+workspace*.mat
+*.fig
+checkpoint_asha_*.mat
+checkpoint_bohb_*.mat
+hapit_test_*.mat
+
+# Optuna study databases (regenerate by re-running a search)
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local notification / automation helpers — these carry credentials
+telegram_*.py
+telegram_*.txt
+telegram_*.json
+send_photos.py

@@ -1,0 +1,188 @@
+Loading Training Data (B0005, B0006)...
+  Processing Merged_B0005_Lifecycle_Sample.csv...
+
+── prepareBatteryDataV9 ─────────────────────────────────
+  File            : Merged_B0005_Lifecycle_Sample.csv
+  Filter          : Butterworth filtfilt (order 4, Wn=0.20)
+  SOC_0 branch    : discharge  (I_probe = -0.114 A)
+  OCV(t=0)        : 3.8731 V   R0(t=0) = 0.0786 Ω
+  Initial SOC_0   : 95.66%   (shared by LABELS and RECONSTRUCTION)
+  Capacity range  : [2661, 6703] A·s
+  SOC range (new) : [0.00%, 100.00%]   clamp steps = 26644
+  Rest anchoring  : NEW gated = 7355 steps | OLD every-rest = 13218 steps
+  Settled gate ON : 7355 / 68281 steps (10.8%)
+  >> LABEL SHIFT (new gated vs old every-rest): max |ΔSOC| = 87.228%
+  SOC weights     : min=0.194, max=2.573, mean=1.000
+  Scaler mode     : TRAINING (scalers computed)
+  Output          : 283 batches × 480 s  (stride 240 s, 5 channels)
+──────────────────────────────────────────────────────────
+
+  Processing Merged_B0006_Lifecycle_Sample.csv...
+
+── prepareBatteryDataV9 ─────────────────────────────────
+  File            : Merged_B0006_Lifecycle_Sample.csv
+  Filter          : Butterworth filtfilt (order 4, Wn=0.20)
+  SOC_0 branch    : discharge  (I_probe = -0.120 A)
+  OCV(t=0)        : 3.8646 V   R0(t=0) = 0.0785 Ω
+  Initial SOC_0   : 95.29%   (shared by LABELS and RECONSTRUCTION)
+  Capacity range  : [2935, 7375] A·s
+  SOC range (new) : [0.00%, 100.00%]   clamp steps = 27067
+  Rest anchoring  : NEW gated = 4427 steps | OLD every-rest = 8926 steps
+  Settled gate ON : 4427 / 68281 steps (6.5%)
+  >> LABEL SHIFT (new gated vs old every-rest): max |ΔSOC| = 80.744%
+  SOC weights     : min=0.197, max=2.573, mean=1.000
+  Scaler mode     : VAL/TEST (training scalers applied)
+  Output          : 283 batches × 480 s  (stride 240 s, 5 channels)
+──────────────────────────────────────────────────────────
+
+Sensor-bias augmentation: p=0.50, |b|<=0.10 A  (sig_I=1.1964)
+
+Loading Validation Data (B0007)...
+
+── prepareBatteryDataV9 ─────────────────────────────────
+  File            : Merged_B0007_Lifecycle_Sample.csv
+  Filter          : Butterworth filtfilt (order 4, Wn=0.20)
+  SOC_0 branch    : charge     (I_probe = +0.298 A)
+  OCV(t=0)        : 3.8664 V   R0(t=0) = 0.0791 Ω
+  Initial SOC_0   : 3.62%   (shared by LABELS and RECONSTRUCTION)
+  Capacity range  : [2753, 6908] A·s
+  SOC range (new) : [0.00%, 100.00%]   clamp steps = 18550
+  Rest anchoring  : NEW gated = 8634 steps | OLD every-rest = 11830 steps
+  Settled gate ON : 8634 / 68281 steps (12.6%)
+  >> LABEL SHIFT (new gated vs old every-rest): max |ΔSOC| = 85.729%
+  SOC weights     : min=0.216, max=2.177, mean=1.000
+  Scaler mode     : VAL/TEST (training scalers applied)
+  Output          : 283 batches × 480 s  (stride 240 s, 5 channels)
+──────────────────────────────────────────────────────────
+
+
+Loading Testing Data (B0018)...
+
+── prepareBatteryDataV9 ─────────────────────────────────
+  File            : Merged_B0018_Lifecycle_Sample.csv
+  Filter          : Butterworth filtfilt (order 4, Wn=0.20)
+  SOC_0 branch    : rest       (I_probe = +0.042 A)
+  OCV(t=0)        : 3.8656 V   R0(t=0) = 0.0806 Ω
+  Initial SOC_0   : 63.12%   (shared by LABELS and RECONSTRUCTION)
+  Capacity range  : [2679, 6726] A·s
+  SOC range (new) : [0.00%, 100.00%]   clamp steps = 34830
+  Rest anchoring  : NEW gated = 10103 steps | OLD every-rest = 14423 steps
+  Settled gate ON : 10103 / 78959 steps (12.8%)
+  >> LABEL SHIFT (new gated vs old every-rest): max |ΔSOC| = 84.151%
+  SOC weights     : min=0.174, max=2.973, mean=1.000
+  Scaler mode     : VAL/TEST (training scalers applied)
+  Output          : 327 batches × 480 s  (stride 240 s, 5 channels)
+──────────────────────────────────────────────────────────
+
+
+Data Split: Train=566 | Val=283 | Test=327 batches
+
+Physics constants precomputed.
+  R0 range (with aging): [0.0513, 0.1260] Ω
+  h  range            : [-0.0014, 0.0011] V
+  Gate coverage (train windows): 8.7% of steps anchored
+
+Network compiled. Learnable parameters: 80866
+
+Epoch   LR         Tot_Loss    Data_Loss   DriftLoss   | WinRMSE   ContRMSE    Best_Cont(%)
+---------------------------------------------------------------------------------------------------------
+1       2.50e-04   3.099297    0.035709    0.100108    | 11.8196   56.2747     56.2747   (Ep 1)  ON
+2       5.00e-04   1.252711    0.022874    0.040115    | 9.6374    49.9850     49.9850   (Ep 2)  ON
+3       7.50e-04   0.663586    0.006523    0.021487    | 9.7263    45.6154     45.6154   (Ep 3)  ON
+5       1.25e-03   0.982890    0.014825    0.031759    | 4.5625    22.3064     22.3064   (Ep 5)  ON
+10      2.50e-03   0.598510    0.007204    0.019328    | 2.9251    25.0338     22.3064   (Ep 5)  ON
+13      3.25e-03   0.155128    0.003701    0.004902    | 3.5249    21.3204     21.3204   (Ep 13)  ON
+19      4.75e-03   0.275766    0.003863    0.008126    | 1.9804    13.7207     13.7207   (Ep 19)  OFF
+20      5.00e-03   0.071896    0.000939    0.001550    | 4.5864    55.9017     13.7207   (Ep 19)  OFF
+21      5.00e-03   0.255114    0.003977    0.007497    | 1.6542    12.4865     12.4865   (Ep 21)  OFF
+27      4.96e-03   0.132501    0.002248    0.003543    | 1.2408    11.9651     11.9651   (Ep 27)  OFF
+30      4.93e-03   0.041337    0.000605    0.000694    | 2.6491    42.8571     11.9651   (Ep 27)  OFF
+40      4.71e-03   0.040389    0.000648    0.000684    | 1.5517    24.4349     11.9651   (Ep 27)  OFF
+50      4.37e-03   0.036638    0.000613    0.000592    | 1.1959    20.6827     11.9651   (Ep 27)  OFF
+60      3.92e-03   0.033462    0.000599    0.000509    | 0.8771    15.5884     11.9651   (Ep 27)  OFF
+61      3.87e-03   0.027963    0.000728    0.000330    | 1.1746    11.9569     11.9569   (Ep 61)  OFF
+63      3.77e-03   0.026640    0.000707    0.000294    | 1.1605    11.8086     11.8086   (Ep 63)  OFF
+65      3.66e-03   0.024855    0.000685    0.000241    | 1.1531    11.7976     11.7976   (Ep 65)  OFF
+68      3.50e-03   0.031256    0.000577    0.000463    | 0.6420    11.4792     11.4792   (Ep 68)  OFF
+70      3.39e-03   0.030619    0.000583    0.000447    | 0.5899    10.6113     10.6113   (Ep 70)  OFF
+72      3.28e-03   0.030343    0.000579    0.000446    | 0.5411    9.6877      9.6877    (Ep 72)  OFF
+74      3.16e-03   0.028842    0.000559    0.000406    | 0.5015    8.9474      8.9474    (Ep 74)  OFF
+76      3.04e-03   0.028287    0.000559    0.000400    | 0.4642    8.2733      8.2733    (Ep 76)  OFF
+78      2.93e-03   0.027278    0.000565    0.000375    | 0.4291    7.6131      7.6131    (Ep 78)  OFF
+80      2.81e-03   0.026547    0.000556    0.000360    | 0.3995    7.0283      7.0283    (Ep 80)  OFF
+82      2.69e-03   0.025398    0.000550    0.000337    | 0.3732    6.4887      6.4887    (Ep 82)  OFF
+84      2.57e-03   0.024648    0.000545    0.000325    | 0.3540    5.9388      5.9388    (Ep 84)  OFF
+86      2.44e-03   0.023355    0.000541    0.000294    | 0.3372    5.5332      5.5332    (Ep 86)  OFF
+88      2.32e-03   0.022370    0.000528    0.000276    | 0.3118    5.1491      5.1491    (Ep 88)  OFF
+90      2.20e-03   0.021767    0.000527    0.000269    | 0.2890    4.7635      4.7635    (Ep 90)  OFF
+92      2.08e-03   0.020518    0.000524    0.000241    | 0.2682    4.0802      4.0802    (Ep 92)  OFF
+94      1.97e-03   0.019858    0.000522    0.000230    | 0.2530    3.3510      3.3510    (Ep 94)  OFF
+96      1.85e-03   0.019656    0.000534    0.000231    | 0.2306    3.1170      3.1170    (Ep 96)  OFF
+98      1.73e-03   0.018759    0.000525    0.000211    | 0.2164    2.5430      2.5430    (Ep 98)  OFF
+100     1.62e-03   0.015853    0.000511    0.000125    | 0.3986    6.1842      2.5430    (Ep 98)  OFF
+103     1.45e-03   0.016411    0.000637    0.000152    | 0.2446    2.5143      2.5143    (Ep 103)  OFF
+104     1.40e-03   0.012418    0.000508    0.000024    | 0.2068    1.5466      1.5466    (Ep 104)  OFF
+105     1.35e-03   0.012275    0.000517    0.000021    | 0.1764    0.4819      0.4819    (Ep 105)  OFF
+107     1.24e-03   0.012327    0.000533    0.000023    | 0.1712    0.3695      0.3695    (Ep 107)  OFF
+110     1.09e-03   0.014441    0.000586    0.000095    | 0.1937    0.9336      0.3695    (Ep 107)  OFF
+120     6.37e-04   0.020833    0.000544    0.000303    | 0.4456    5.3498      0.3695    (Ep 107)  OFF
+130     2.96e-04   0.014516    0.000598    0.000103    | 0.3082    4.8826      0.3695    (Ep 107)  OFF
+140     8.25e-05   0.012251    0.000522    0.000027    | 0.2487    2.6669      0.3695    (Ep 107)  OFF
+150     1.00e-05   0.011978    0.000528    0.000021    | 0.1683    0.5081      0.3695    (Ep 107)  OFF
+160     1.00e-05   0.012171    0.000528    0.000025    | 0.1905    1.4551      0.3695    (Ep 107)  OFF
+170     1.00e-05   0.012009    0.000530    0.000021    | 0.1701    0.6821      0.3695    (Ep 107)  OFF
+180     1.00e-05   0.011916    0.000509    0.000020    | 0.1780    1.0718      0.3695    (Ep 107)  OFF
+
+[!] EARLY STOPPING at Epoch 187.
+
+Training complete in 5899.6 s.
+
+Restoring best model from Epoch 107 (CONTINUOUS Val RMSE=0.3695%)...
+
+
+========================================================================
+     FINAL EVALUATION
+========================================================================
+Metric                 | Train        | Validation   | Test        
+------------------------------------------------------------------------
+Continuous RMSE        | 0.4553     % | 0.3695     % | 0.4129     %
+Continuous MAE         | 0.2574     % | 0.2467     % | 0.1981     %
+Continuous Max         | 1.9131     % | 1.2849     % | 1.9475     %
+Continuous R^2         | 0.9998       | 0.9999       | 0.9998      
+------------------------------------------------------------------------
+Windowed-oracle RMSE   | 0.3315     % | 0.0688     % | 0.0638     %
+========================================================================
+  Continuous = deployment metric (full reconstruction).
+  Windowed-oracle = increment-correction quality (anchored each window).
+  A large gap (continuous >> windowed) ⇒ residual drift/anchoring;
+  a small gap ⇒ error is intrinsic to the increment correction.
+========================================================================
+
+
+── P0: PER-SEGMENT RMSE (TEST (B0018)) ────────────────────────────────────
+  chunk  time-range (s)   RMSE (%)  
+  1      [     1-  7872]  0.0327    
+  2      [  7873- 15744]  0.0953    
+  3      [ 15745- 23616]  0.1262    
+  4      [ 23617- 31488]  0.1812    
+  5      [ 31489- 39360]  0.6716    
+  6      [ 39361- 47232]  0.2284    
+  7      [ 47233- 55104]  0.5817    
+  8      [ 55105- 62976]  0.0003    
+  9      [ 62977- 70848]  0.3682    
+  10     [ 70849- 78720]  0.8179    
+─────────────────────────────────────────────────────────────────────
+
+── P4: CURRENT-BIAS ABLATION (TEST) ─────────────────────────────────
+  Inject a constant current-sensor bias; compare pure Coulomb (corr=0)
+  vs the network-corrected reconstruction. If the network reduces the
+  error, it is fusing voltage to fix the bias (not merely integrating).
+  Bias (A)       | Pure-Coulomb RMSE  | Network RMSE      
+  0.00           | 0.0000           % | 0.4129           %
+  0.05           | 2.4300           % | 2.4511           %
+  0.10           | 4.3162           % | 4.3683           %
+─────────────────────────────────────────────────────────────────────
+
+>>> TARGET ACHIEVED: continuous test RMSE 0.4129% < 0.5%
+
+Saved: hapit_v8p6_results.mat  and  hapit_v8p6_best_checkpoint.mat

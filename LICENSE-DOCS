@@ -1,0 +1,25 @@
+Documentation, figures and written material in this repository
+==============================================================
+
+Copyright (c) 2026 Muhammad Amirul Aqmal Bin Mohd Azhar
+
+The non-code content of this repository is licensed under the
+Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+This covers:
+  - README.md and everything under docs/
+  - all figures under results/figures/
+  - the training log and HPO trial summaries under results/
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the licence, and
+indicate if changes were made.
+
+Full licence text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Source code (everything under src/) is licensed separately under the MIT
+Licence — see LICENSE.
+
+The battery cycling data under data/ is derived from the NASA Prognostics
+Center of Excellence Li-ion Battery Aging Dataset and is not covered by
+either licence above. See data/README.md for its provenance and terms.

@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+title: "HA-PIT: Ageing-Aware Physics-Informed Transformer for Battery State-of-Charge Estimation"
+abstract: >-
+  A multi-scale convolutional front end feeding two self-attention blocks,
+  trained with a five-term physics-informed loss built on a first-order
+  Thevenin equivalent-circuit model. The network predicts a residual
+  correction on a Coulomb-counting anchor rather than absolute SOC. Capacity
+  and internal resistance inside the physics constraint are recalibrated as
+  the cell ages, from fresh to a 1.4 Ah end-of-life threshold.
+type: software
+authors:
+  - family-names: "Mohd Azhar"
+    given-names: "Muhammad Amirul Aqmal"
+    affiliation: "Universiti Teknologi MARA, Shah Alam"
+repository-code: "https://github.com/Aether03/battery-soc-physics-informed-transformer"
+license: MIT
+version: "8.6"
+date-released: "2026-08-23"
+keywords:
+  - state-of-charge
+  - lithium-ion battery
+  - physics-informed neural network
+  - transformer
+  - battery management system
+  - electric vehicles
+  - hyperparameter optimisation

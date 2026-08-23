@@ -1,0 +1,17 @@
+# Python side of the hyperparameter-optimisation harness.
+# Only ASHA and BOHB need Python; the baseline model and the
+# Bayesian-optimisation + PCGrad arm are pure MATLAB.
+#
+#   pip install -r requirements.txt
+#
+# matlabengine must match your MATLAB release. R2024b ships 24.2.x.
+# Install it from your MATLAB installation if the pinned version is wrong:
+#   cd "$MATLABROOT/extern/engines/python" && python setup.py install
+
+optuna>=3.6,<5
+matlabengine>=24.2,<25
+
+# Used by the plotting and inspection utilities
+numpy>=1.24
+pandas>=2.0
+matplotlib>=3.7

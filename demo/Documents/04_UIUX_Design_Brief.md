@@ -4,7 +4,9 @@ Unlike the other documents, this one isn't purely descriptive of a generic
 plan — the palette below was run through a formal validation procedure
 (the `dataviz` skill's color-formula method) rather than picked by eye, and
 every value stated here is what's actually wired into `.streamlit/config.toml`
-and `app.py` today.
+and `app.py` today. (In the repo, `.streamlit/` sits at the repository root, not
+under `demo/`: Streamlit reads it from the launch directory, and both Community
+Cloud and `streamlit run demo/app.py` launch from the root.)
 
 ## Typography
 

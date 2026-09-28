@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Regenerable MATLAB export intermediates (see PyTorch_port/matlab/*.m).
+# The app only needs data/hapit_pytorch.pt and data/try_it/*.npz.
+PyTorch_port/*.mat

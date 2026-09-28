@@ -1,0 +1,46 @@
+{
+  "headline": {
+    "test_rmse_pct": 0.4129,
+    "test_cell": "B0018",
+    "full_life_rmse_pct": 0.4988,
+    "train_time": "1h 38m",
+    "hardware": "Ryzen 5 5500U, 8GB RAM, CPU only",
+    "params": 80866,
+    "best_epoch": 107,
+    "early_stop_epoch": 187
+  },
+  "results_table": [
+    {"split": "Train", "cells": "B0005 + B0006", "rmse": 0.4553, "mae": 0.2574, "max_error": 1.9131, "r2": 0.9998},
+    {"split": "Validation", "cells": "B0007", "rmse": 0.3695, "mae": 0.2467, "max_error": 1.2849, "r2": 0.9999},
+    {"split": "Test (held out)", "cells": "B0018", "rmse": 0.4129, "mae": 0.1981, "max_error": 1.9475, "r2": 0.9998}
+  ],
+  "stress_tests": [
+    {"name": "B0005, all 338 cycles", "probes": "Complete life, 2.0Ah fresh to 1.4Ah end-of-life", "rmse": 0.4988, "mae": 0.2781, "max_error": 2.6364, "r2": 0.9998},
+    {"name": "UDDS drive cycle", "probes": "Out-of-distribution automotive load profile", "rmse": 5.5290, "mae": 4.2264, "max_error": 11.1802, "r2": 0.9707}
+  ],
+  "bias_ablation": {
+    "rows": [
+      {"injected_bias_a": 0.00, "pure_coulomb": 0.0000, "hapit_v86": 0.4129, "hapit_hpo_config": 0.6518},
+      {"injected_bias_a": 0.05, "pure_coulomb": 2.4300, "hapit_v86": 2.4511, "hapit_hpo_config": 1.5997},
+      {"injected_bias_a": 0.10, "pure_coulomb": 4.3162, "hapit_v86": 4.3683, "hapit_hpo_config": 3.4446}
+    ]
+  },
+  "hpo_comparison": {
+    "search_rows": [
+      {"method": "ASHA", "strategy": "Optuna TPE + successive halving", "trials": 40, "pruned": 38, "best_trial_rmse": 20.28, "compute_hours": 24.2},
+      {"method": "BOHB", "strategy": "Optuna TPE + Hyperband + 12-trial refinement", "trials": 55, "pruned": 45, "best_trial_rmse": 13.50, "compute_hours": 48.3},
+      {"method": "Bayesian optimisation + PCGrad", "strategy": "GP surrogate, expected-improvement acquisition, gradient surgery", "trials": 55, "pruned": 0, "best_trial_rmse": 2.25, "compute_hours": 27.9}
+    ],
+    "fair_comparison_rows": [
+      {"configuration": "Hand-tuned baseline (V8.6)", "continuous_test_rmse": 0.4129},
+      {"configuration": "Best searched config, re-run at full fidelity", "continuous_test_rmse": 0.6518}
+    ]
+  },
+  "loss_terms": [
+    {"term": "L_data", "weight": 1.0, "job": "SOC fidelity, weighted to counter SOC-range imbalance"},
+    {"term": "L_Ah", "weight": 10.0, "job": "Keeps the correction small: stay near Coulomb counting unless voltage says otherwise"},
+    {"term": "L_end", "weight": 0.5, "job": "Penalises accumulated within-window drift, invisible to per-step MSE"},
+    {"term": "L_drift", "weight": 30.0, "job": "Squares the sum of unanchored deviations, surfacing tiny per-step bias in the loss"},
+    {"term": "L_ECM", "weight": 0.5, "job": "Thevenin terminal-voltage consistency, masked during fast current steps"}
+  ]
+}

@@ -4,6 +4,8 @@ Lithium-ion state-of-charge estimation to **0.41% RMSE on a cell the model never
 
 Trained end to end in 1 h 38 m on a laptop CPU: Ryzen 5 5500U, 8 GB RAM, no GPU.
 
+**Try it live: [hapit-battery-soc.streamlit.app](https://hapit-battery-soc.streamlit.app)** — an interactive results explorer, plus live inference through a verified PyTorch port of the trained model. See [Interactive demo](#interactive-demo).
+
 Final-year project, Universiti Teknologi MARA Shah Alam, August 2026.
 Supervisor: Dr Masoud Ahmadipour.
 
@@ -146,6 +148,33 @@ Full derivation, every equation, and the reasoning behind each design choice: [`
 
 ---
 
+## Interactive demo
+
+[`demo/`](demo/) is a Streamlit app built on this repository's own saved evaluation output: every number it shows comes from the results above, none recomputed or estimated for the demo. Live at **[hapit-battery-soc.streamlit.app](https://hapit-battery-soc.streamlit.app)**.
+
+| Tab | What it shows |
+|---|---|
+| Overview | Headline metrics, results and stress-test tables |
+| Results Explorer | Interactive SOC trajectory, absolute error, regression and error-distribution plots for the train, validation and test splits |
+| HPO Comparison | Best-so-far convergence of all three searches, and the fair full-fidelity comparison |
+| Bias Robustness | The current-sensor bias ablation |
+| How It Works | Residual formulation, ageing awareness, the five-term loss |
+| About | Attribution, data provenance, licensing |
+| Try It | **Live inference** on any of the four cells, through a PyTorch port of the trained model |
+
+**The PyTorch port.** A MATLAB checkpoint can't be served from a free public host, so the trained `dlnetwork`'s 80,866 parameters were exported from MATLAB and converted to PyTorch ([`demo/model.py`](demo/model.py)), along with the Coulomb-counting and gated rest-anchoring reconstruction ([`demo/inference.py`](demo/inference.py)). On all four cells the port reproduces the MATLAB model's continuous-reconstruction output to within about 1e-5 percentage points at every timestep, and its RMSE to within about 1e-6 pp: see [`demo/PyTorch_port/verify_full_pipeline.py`](demo/PyTorch_port/verify_full_pipeline.py). The export scripts, weight conversion, verification and the port's design documents are in [`demo/PyTorch_port/`](demo/PyTorch_port/); the demo's own design documents are in [`demo/Documents/`](demo/Documents/).
+
+Try It is limited to the four NASA cells on purpose. The UDDS result above shows the model doesn't yet generalise out of distribution, so arbitrary uploaded data isn't offered.
+
+Run it locally (Python 3.10+, no MATLAB needed):
+
+```bash
+pip install -r demo/requirements.txt
+streamlit run demo/app.py
+```
+
+---
+
 ## Repository layout
 
 ```
@@ -158,6 +187,7 @@ results/figures/      Five result figures, architecture diagram, HPO pruning plo
 results/logs/         Full V8.6 training console log
 results/hpo/          Trial-level data for all three searches
 docs/                 Technical reference, HPO study, reproduction guide
+demo/                 Streamlit demo app and the verified PyTorch port of the trained model
 ```
 
 MATLAB filenames are preserved exactly as they ran. MATLAB resolves functions and class definitions by filename, so renaming them would break the call graph and mean the published code is not the code that produced these numbers.
@@ -221,9 +251,9 @@ Full instructions, including how to regenerate the data from NASA's originals an
 
 ## Licence
 
-Source code under `src/` is MIT. See [LICENSE](LICENSE).
+Source code under `src/` and `demo/` is MIT. See [LICENSE](LICENSE).
 Documentation, figures and written material are CC BY 4.0. See [LICENSE-DOCS](LICENSE-DOCS).
-The battery data under `data/` is derived from a NASA public dataset and is covered by neither. See [data/README.md](data/README.md).
+The battery data under `data/` is derived from a NASA public dataset and is covered by neither. See [data/README.md](data/README.md). The same applies to the NASA-derived arrays under `demo/data/` (evaluation outputs and model inputs built from those cells).
 
 ## Acknowledgements
 

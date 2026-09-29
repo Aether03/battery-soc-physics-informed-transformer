@@ -18,8 +18,11 @@ def run_inference(model, cell_data: dict) -> dict:
 
     num_features, num_windows, seq_len = X.shape
     x_torch = torch.tensor(X.transpose(1, 0, 2), dtype=torch.float32)
+    # Chunked: attention scores are windows x heads x 480 x 480 floats, so all
+    # 327 windows at once peaks at ~2.6 GB and gets the process OOM-killed on
+    # Streamlit Community Cloud; 16 at a time peaks at ~0.4 GB.
     with torch.no_grad():
-        net_out = model(x_torch).numpy()  # [windows, 2, seqLen]
+        net_out = torch.cat([model(chunk) for chunk in torch.split(x_torch, 16)]).numpy()  # [windows, 2, seqLen]
     corr_mat = net_out[:, 0, :] * dSOC_scale
 
     total_pts = (num_windows - 1) * stride + seq_len

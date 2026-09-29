@@ -67,14 +67,14 @@ Trained end to end in under two hours, on a laptop CPU, with no GPU.
     )
 
     st.subheader("Headline results")
-    st.dataframe(metrics["results_table"], hide_index=True, use_container_width=True)
+    st.dataframe(metrics["results_table"], hide_index=True, width="stretch")
     st.caption(
         "Continuous reconstruction: the model walks the whole sequence in one pass, "
         "with no per-window resets — this is the number that matters for deployment."
     )
 
     st.subheader("Stress tests beyond the main split")
-    st.dataframe(metrics["stress_tests"], hide_index=True, use_container_width=True)
+    st.dataframe(metrics["stress_tests"], hide_index=True, width="stretch")
     st.caption(
         "The UDDS row is the honest generalisation boundary: trained on constant-current "
         "NASA cycling, the model loses an order of magnitude on an automotive drive cycle."
@@ -108,7 +108,7 @@ with tab_results:
         fig.add_trace(go.Scattergl(x=df["index"], y=df["true_soc"], mode="lines", name="True SOC", line=dict(width=1, color=BLUE)))
         fig.add_trace(go.Scattergl(x=df["index"], y=df["pred_soc"], mode="lines", name="Predicted SOC", line=dict(width=1, color=ORANGE)))
         fig.update_layout(title="SOC trajectory: predicted vs true", xaxis_title="Timestep index", yaxis_title="SOC (%)", height=400, legend=dict(orientation="h", y=1.1))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col2:
         fig = go.Figure()
@@ -116,7 +116,7 @@ with tab_results:
         fig.add_hline(y=row["rmse"], line_dash="dash", annotation_text=f"RMSE {row['rmse']:.3f}%", line_color=MUTED)
         fig.add_hline(y=row["mae"], line_dash="dot", annotation_text=f"MAE {row['mae']:.3f}%", line_color=MUTED)
         fig.update_layout(title="Absolute error over time", xaxis_title="Timestep index", yaxis_title="|Error| (percentage points)", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     col3, col4 = st.columns(2)
 
@@ -127,13 +127,13 @@ with tab_results:
         fig.add_trace(go.Scattergl(x=df["true_soc"], y=df["pred_soc"], mode="markers", name="Predictions", marker=dict(size=2, opacity=0.3, color=BLUE)))
         fig.add_trace(go.Scatter(x=x_line, y=slope * x_line + intercept, mode="lines", name=f"Fit (slope={slope:.3f})", line=dict(color=MUTED, dash="dash")))
         fig.update_layout(title="Predicted vs true SOC", xaxis_title="True SOC (%)", yaxis_title="Predicted SOC (%)", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col4:
         fig = go.Figure()
         fig.add_trace(go.Histogram(x=df["error"], nbinsx=80, name="Error", marker_color=BLUE))
         fig.update_layout(title="Error distribution", xaxis_title="Error (percentage points)", yaxis_title="Count", height=400)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with st.expander("Training convergence"):
         curves = load_training_curves()
@@ -142,7 +142,7 @@ with tab_results:
         fig.add_trace(go.Scatter(x=curves["epoch"], y=curves["val_rmse_windowed"], mode="lines", name="Validation RMSE (windowed-oracle)", line=dict(dash="dot", color=ORANGE)))
         fig.add_vline(x=curves["best_epoch"], line_dash="dash", annotation_text=f"Best epoch {curves['best_epoch']}", line_color=MUTED)
         fig.update_layout(xaxis_title="Epoch", yaxis_title="Validation RMSE (%)", height=350)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
         st.caption(
             "The gap between the continuous and windowed-oracle lines localises where error "
             "comes from: the windowed metric measures correction quality alone, the continuous "
@@ -173,7 +173,7 @@ them beat the hand-tuned baseline.
         xaxis_title="Trial number", yaxis_title="Best RMSE so far (%, search-harness metric)",
         height=450,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
     st.caption(
         "These trial-level RMSE figures use the search harness's own settings (shorter "
         "sequence length, an earlier four-term loss) and are not directly comparable to the "
@@ -181,10 +181,10 @@ them beat the hand-tuned baseline.
     )
 
     st.subheader("Search summary")
-    st.dataframe(metrics["hpo_comparison"]["search_rows"], hide_index=True, use_container_width=True)
+    st.dataframe(metrics["hpo_comparison"]["search_rows"], hide_index=True, width="stretch")
 
     st.subheader("Fair comparison: best config re-run at full fidelity")
-    st.dataframe(metrics["hpo_comparison"]["fair_comparison_rows"], hide_index=True, use_container_width=True)
+    st.dataframe(metrics["hpo_comparison"]["fair_comparison_rows"], hide_index=True, width="stretch")
     st.markdown(
         """
 **Manual tuning won.** The residual error the searches were fighting was
@@ -217,7 +217,7 @@ a real chance to counteract it.
     fig.add_trace(go.Bar(name="HA-PIT V8.6 (best clean accuracy)", x=biases, y=[r["hapit_v86"] for r in rows], marker_color=ORANGE))
     fig.add_trace(go.Bar(name="HA-PIT, HPO config", x=biases, y=[r["hapit_hpo_config"] for r in rows], marker_color=AQUA))
     fig.update_layout(barmode="group", title="RMSE under injected current-sensor bias", xaxis_title="Injected bias", yaxis_title="RMSE (%)", height=450)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.markdown(
         """
@@ -249,7 +249,7 @@ exactly by construction.
 
     arch_path = DATA_DIR / "figures" / "architecture.png"
     if arch_path.exists():
-        st.image(str(arch_path), caption="Model architecture", use_container_width=True)
+        st.image(str(arch_path), caption="Model architecture", width="stretch")
 
     st.subheader("Ageing awareness")
     st.markdown(
@@ -264,7 +264,7 @@ end-of-life, where a fresh-cell equivalent-circuit model would be badly wrong.
     )
 
     st.subheader("Five-term physics-informed loss")
-    st.dataframe(metrics["loss_terms"], hide_index=True, use_container_width=True)
+    st.dataframe(metrics["loss_terms"], hide_index=True, width="stretch")
     st.caption(
         "L_drift is the term that mattered most: squaring the sum of unanchored deviations, "
         "rather than averaging squared per-step error, is what makes a bias too small to see "
@@ -332,7 +332,7 @@ documents: [`demo/PyTorch_port/`](https://github.com/Aether03/battery-soc-physic
         title=f"Live PyTorch inference — {cell}", xaxis_title="Timestep index",
         yaxis_title="SOC (%)", height=420, legend=dict(orientation="h", y=1.1),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.caption(
         "Input is drawn from the project's existing, already-validated cell data — not a "
